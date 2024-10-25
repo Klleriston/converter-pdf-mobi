@@ -1,0 +1,22 @@
+version: '3'
+services:
+  calibre:
+    image: lscr.io/linuxserver/calibre-web:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - ./uploads:/uploads
+      - ./config:/config
+    ports:
+      - 8083:8083
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - calibre
+    volumes:
+      - ./uploads:/uploads
